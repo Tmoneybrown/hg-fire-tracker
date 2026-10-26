@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HG Fire project tracker for sprinkler design jobs.">
+  <meta name="theme-color" content="#14147A">
+  <title>HG Fire Project Tracker</title>
+  <link rel="icon" href="assets/hg-logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#app">Skip to jobs</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand-mark">
+        <img src="assets/hg-logo.png" alt="HG Fire" width="939" height="749">
+      </div>
+      <div class="header-text">
+        <h1>HG Fire Project Tracker</h1>
+        <p class="as-of">As of <time id="as-of"></time></p>
+      </div>
+    </div>
+  </header>
+  <main id="app" class="wrap"></main>
+  <footer class="site-footer">
+    <div class="wrap">HG Fire design tracker</div>
+  </footer>
+  <noscript>
+    <p class="noscript wrap">JavaScript is required to render jobs from data.js.</p>
+  </noscript>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
