@@ -74,9 +74,9 @@ var TRACKER_DATA = {
         },
       ],
       todos: [
-        { text: "Go over Standpipe and Pump layouts with Brent", done: false },
-        { text: "Create page layout for Standpipe and Pump", done: false },
-        { text: "Send cut sheets to Clark Construction", done: false },
+        { text: "Go over Standpipe and Pump layouts with Brent", due: "2026-11-02", done: false },
+        { text: "Create page layout for Standpipe and Pump", due: "2026-11-02", done: false },
+        { text: "Send cut sheets to Clark Construction", due: "2026-11-02", done: false },
       ],
     },
     {
