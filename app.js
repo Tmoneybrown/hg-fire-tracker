@@ -92,6 +92,10 @@
     if (fabRows.length) {
       card.appendChild(renderFab(fabRows, index));
     }
+    var city = renderCity(job, index);
+    if (city) card.appendChild(city);
+    var todos = renderTodos(job, reportDate, index);
+    if (todos) card.appendChild(todos);
     if (notes.length) {
       card.appendChild(renderNotes(notes, index));
     }
@@ -168,6 +172,75 @@
     });
     table.appendChild(tbody);
     section.appendChild(table);
+    return section;
+  }
+
+  function renderCity(job, index) {
+    var submissions = (job.city || []).filter(function (item) { return item; });
+    if (!submissions.length) return null;
+
+    var headingId = "city-" + index;
+    var section = el("section", { class: "section", "aria-labelledby": headingId });
+    section.appendChild(el("h3", { id: headingId, text: "City permits" }));
+
+    submissions.forEach(function (submission) {
+      var block = el("div", { class: "permit" });
+      var name = String(submission.name || "").trim();
+      if (name) block.appendChild(el("h4", { class: "permit-name", text: name }));
+      var steps = el("div", { class: "permit-steps" });
+      steps.appendChild(renderPermitStep("Submitted to City", submission.submitted, "submitted"));
+      steps.appendChild(renderPermitStep("Approved by City", submission.approved, "approved"));
+      block.appendChild(steps);
+      section.appendChild(block);
+    });
+    return section;
+  }
+
+  function renderPermitStep(label, raw, doneTone) {
+    var state = permitStatus(raw);
+    var done = state.status === "done";
+    var stateText = permitStateText(state);
+    var step = el("div", {
+      class: "permit-step " + (done ? doneTone : "pending"),
+    });
+    step.appendChild(el("span", {
+      class: "mark",
+      "aria-hidden": "true",
+      text: done ? "\u2713" : "",
+    }));
+    var copy = el("div", { class: "permit-copy" });
+    copy.appendChild(el("p", { class: "permit-label", text: label }));
+    copy.appendChild(el("p", { class: "permit-state", text: stateText }));
+    step.appendChild(copy);
+    return step;
+  }
+
+  function renderTodos(job, reportDate, index) {
+    var items = sortTodos(job.todos || []);
+    if (!items.length) return null;
+
+    var headingId = "todos-" + index;
+    var section = el("section", { class: "section", "aria-labelledby": headingId });
+    section.appendChild(el("h3", { id: headingId, text: "To-Do" }));
+    var list = el("ul", { class: "todos" });
+    items.forEach(function (item) {
+      var view = todoView(item, reportDate);
+      var row = el("li", { class: "todo" + (view.className ? " " + view.className : "") });
+      row.appendChild(el("span", {
+        class: "mark",
+        "aria-hidden": "true",
+        text: view.done ? "\u2713" : "",
+      }));
+      var body = el("div", { class: "todo-body" });
+      body.appendChild(el("p", { class: "todo-text", text: item.text }));
+      if (view.note) body.appendChild(el("p", { class: "sr-only", text: view.note }));
+      row.appendChild(body);
+      if (view.dueLabel) {
+        row.appendChild(el("time", { class: "todo-due", datetime: view.due, text: view.dueLabel }));
+      }
+      list.appendChild(row);
+    });
+    section.appendChild(list);
     return section;
   }
 
@@ -272,6 +345,54 @@
       var resolved = resolveFab(entry);
       return !resolved.sent && reportDate > resolved.fabCheck;
     }).length;
+  }
+
+  function permitStatus(raw) {
+    var status = "pending";
+    var date = "";
+    if (raw && typeof raw === "object") {
+      if (String(raw.status || "").toLowerCase() === "done") status = "done";
+      if (isIsoDate(raw.date)) date = raw.date;
+    }
+    return { status: status, date: date };
+  }
+
+  function permitStateText(state) {
+    var date = state.date ? formatShort(state.date) : "";
+    if (state.status === "done") return date ? "Done \u00b7 " + date : "Done";
+    return date ? "Pending \u00b7 " + date : "Pending";
+  }
+
+  function sortTodos(items) {
+    return items.filter(function (item) {
+      return item && String(item.text || "").trim() !== "";
+    }).slice().sort(function (a, b) {
+      var ad = isIsoDate(a.due) ? a.due : "9999-99-99";
+      var bd = isIsoDate(b.due) ? b.due : "9999-99-99";
+      if (ad < bd) return -1;
+      if (ad > bd) return 1;
+      return 0;
+    });
+  }
+
+  function todoView(item, reportDate) {
+    var done = item.done === true;
+    var due = isIsoDate(item.due) ? item.due : "";
+    var overdue = !done && due && reportDate > due;
+    var soon = !done && due && !overdue && due <= addDays(reportDate, 3);
+    var className = done ? "done" : overdue ? "overdue" : soon ? "soon" : "";
+    var note = done ? "Done" : overdue ? "Overdue" : soon ? "Due within 3 days" : "";
+    return {
+      done: done,
+      due: due,
+      dueLabel: due ? formatShort(due) : "",
+      className: className,
+      note: note,
+    };
+  }
+
+  function isIsoDate(value) {
+    return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
   }
 
   function addDays(iso, days) {
