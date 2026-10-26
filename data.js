@@ -26,8 +26,9 @@
           text  The task
           due   Optional YYYY-MM-DD
           done  true or false
-          The page sorts by due date (undated tasks last). A task past asOf
-          that is not done is overdue. A task due within 3 days is highlighted.
+          The page sorts by due date. Tasks with no due date stay in the
+          order listed, after any dated tasks. A task past asOf that is not
+          done is overdue. A task due within 3 days is highlighted.
           Done tasks are struck through.
 */
 
@@ -72,7 +73,11 @@ var TRACKER_DATA = {
           approved: { status: "pending" },
         },
       ],
-      todos: [],
+      todos: [
+        { text: "Go over Standpipe and Pump layouts with Brent", done: false },
+        { text: "Create page layout for Standpipe and Pump", done: false },
+        { text: "Send cut sheets to Clark Construction", done: false },
+      ],
     },
     {
       number: "4421",
