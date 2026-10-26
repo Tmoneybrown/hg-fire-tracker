@@ -42,7 +42,7 @@ var TRACKER_DATA = {
       name: "Moody Center (Rice University)",
       areas: [
         { name: "Level 1", stages: [true, true, true, true] },
-        { name: "Level 2", stages: [true, true, true, false] },
+        { name: "Level 2", stages: [true, true, true, true] },
         { name: "Level 3", stages: [true, true, false, false] },
         { name: "Level 4", stages: [false, false, false, false] },
         { name: "Level 5", stages: [false, false, false, false] },
