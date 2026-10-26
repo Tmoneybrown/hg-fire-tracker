@@ -366,12 +366,17 @@
   function sortTodos(items) {
     return items.filter(function (item) {
       return item && String(item.text || "").trim() !== "";
-    }).slice().sort(function (a, b) {
-      var ad = isIsoDate(a.due) ? a.due : "9999-99-99";
-      var bd = isIsoDate(b.due) ? b.due : "9999-99-99";
-      if (ad < bd) return -1;
-      if (ad > bd) return 1;
-      return 0;
+    }).map(function (item, index) {
+      return { item: item, index: index };
+    }).sort(function (a, b) {
+      var ad = isIsoDate(a.item.due) ? a.item.due : "";
+      var bd = isIsoDate(b.item.due) ? b.item.due : "";
+      if (ad && bd && ad !== bd) return ad < bd ? -1 : 1;
+      if (ad && !bd) return -1;
+      if (!ad && bd) return 1;
+      return a.index - b.index;
+    }).map(function (entry) {
+      return entry.item;
     });
   }
 

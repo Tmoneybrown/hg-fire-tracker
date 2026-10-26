@@ -25,7 +25,7 @@ Edit **`data.js` only**, then reload the page.
    - `submitted` — Submitted to City. `{ status: "pending" }` or `{ status: "done", date: "YYYY-MM-DD" }`. `date` is optional.
    - `approved` — Approved by City, same shape.
    Pending stays neutral. A done submission is cyan. A done approval is a navy check. Add one list entry per package. Moody Center has two; the loading dock has one.
-8. `todos` is a list of tasks. Each has `text`, optional `due` (`YYYY-MM-DD`), and `done` (`true` or `false`). The page sorts by due date, with undated tasks last. A task past `asOf` that is not done is red. A task due within 3 days, including today, is cyan. Done tasks are struck through. An empty list hides the To-Do section.
+8. `todos` is a list of tasks. Each has `text`, optional `due` (`YYYY-MM-DD`), and `done` (`true` or `false`). The page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones. A task past `asOf` that is not done is red. A task due within 3 days, including today, is cyan. Done tasks are struck through. An empty list hides the To-Do section.
 
 ### Example
 
