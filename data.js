@@ -64,7 +64,7 @@ var TRACKER_DATA = {
       city: [
         {
           name: "Main Building (Levels 1-5)",
-          submitted: { status: "pending" },
+          submitted: { status: "done", date: "2026-10-28" },
           approved: { status: "pending" },
         },
         {
