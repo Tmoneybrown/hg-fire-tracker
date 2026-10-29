@@ -45,7 +45,7 @@ var TRACKER_DATA = {
         { name: "Level 1", stages: [true, true, true, true] },
         { name: "Level 2", stages: [true, true, true, true] },
         { name: "Level 3", stages: [true, true, false, false] },
-        { name: "Level 4/5", stages: [false, false, false, false] },
+        { name: "Level 4/5", stages: [true, false, false, false] },
         { name: "Pavilion L1", stages: [false, false, false, false] },
         { name: "Pavilion L2", stages: [false, false, false, false] },
       ],
