@@ -62,7 +62,6 @@
   function renderJob(job, stageNames, reportDate, index) {
     var stats = jobStats(job, stageNames, reportDate);
     var fabRows = fabSchedule(job, reportDate);
-    var notes = (job.notes || []).filter(function (note) { return String(note).trim() !== ""; });
     var card = el("article", {
       class: "job" + (stats.past > 0 ? " has-warning" : ""),
       id: "job-" + index + "-" + slug(job.number),
@@ -96,9 +95,6 @@
     if (city) card.appendChild(city);
     var todos = renderTodos(job, reportDate, index);
     if (todos) card.appendChild(todos);
-    if (notes.length) {
-      card.appendChild(renderNotes(notes, index));
-    }
     return card;
   }
 
@@ -239,18 +235,6 @@
         row.appendChild(el("time", { class: "todo-due", datetime: view.due, text: view.dueLabel }));
       }
       list.appendChild(row);
-    });
-    section.appendChild(list);
-    return section;
-  }
-
-  function renderNotes(notes, index) {
-    var headingId = "notes-" + index;
-    var section = el("section", { class: "section", "aria-labelledby": headingId });
-    section.appendChild(el("h3", { id: headingId, text: "Notes" }));
-    var list = el("ul", { class: "notes" });
-    notes.forEach(function (note) {
-      list.appendChild(el("li", { text: note }));
     });
     section.appendChild(list);
     return section;
