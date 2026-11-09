@@ -3,9 +3,9 @@
   Instructions: README.md
 
   asOf    Report date (YYYY-MM-DD). Fab warnings are judged against this date.
-  stages  Progress columns, in order. Keep all four.
+  stages  Progress columns, in order. Keep all five, including Design.
   areas   One row on the progress grid.
-          stages: [Field Checks, Calced, Listed, Delivered]
+          stages: [Design, Field Checks, Calced, Listed, Delivered]
           true = done, false = still open.
   fab     Optional fabrication schedule. Omit it, or use [], to hide that section.
           floor     Row label
@@ -29,9 +29,11 @@
                      submitted  Same shape as submitted above
                      approved   Same shape. The right cell stays "Approved by City".
   todos   Optional list. Omit it, or use [], to hide that section.
-          text  The task
-          due   Optional YYYY-MM-DD
-          done  true or false
+          text       The task
+          due        Optional YYYY-MM-DD
+          done       true or false
+          completed  Optional YYYY-MM-DD. Shown only when done is true,
+                     beside the task, such as "Completed Nov 9".
           The page sorts by due date. Tasks with no due date stay in the
           order listed, after any dated tasks. A task past asOf that is not
           done is overdue. A task due within 3 days is highlighted.
@@ -41,19 +43,18 @@
 var TRACKER_DATA = {
   asOf: "2026-11-09",
 
-  stages: ["Field Checks", "Calced", "Listed", "Delivered"],
+  stages: ["Design", "Field Checks", "Calced", "Listed", "Delivered"],
 
   jobs: [
     {
       number: "4396",
       name: "Moody Center (Rice University)",
       areas: [
-        { name: "Level 1", stages: [true, true, true, true] },
-        { name: "Level 2", stages: [true, true, true, true] },
-        { name: "Level 3", stages: [true, true, true, true] },
-        { name: "Level 4/5", stages: [true, true, true, false] },
-        { name: "Pavilion L1", stages: [false, false, false, false] },
-        { name: "Pavilion L2", stages: [false, false, false, false] },
+        { name: "Level 1", stages: [true, true, true, true, true] },
+        { name: "Level 2", stages: [true, true, true, true, true] },
+        { name: "Level 3", stages: [true, true, true, true, true] },
+        { name: "Level 4/5", stages: [true, true, true, true, false] },
+        { name: "Pavilion Level 1 & 2", stages: [true, false, false, false, false] },
       ],
       fab: [
         {
@@ -61,6 +62,11 @@ var TRACKER_DATA = {
           poj: "2026-11-12",
           fabCheck: "2026-10-22",
           toFab: "2026-10-29",
+          sent: true,
+        },
+        {
+          floor: "Level 4/5",
+          poj: "2026-11-23",
           sent: true,
         },
       ],
@@ -98,7 +104,7 @@ var TRACKER_DATA = {
       number: "4421",
       name: "811 Louisiana St, PG Loading Dock (Pipe Replacement)",
       areas: [
-        { name: "Loading Dock", stages: [false, false, false, false] },
+        { name: "Loading Dock", stages: [false, true, true, false, false] },
       ],
       city: [
         {

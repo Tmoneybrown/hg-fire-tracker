@@ -8,9 +8,9 @@ Edit **`data.js` only**, then reload the page.
 
 1. Set `asOf` to the report date (`YYYY-MM-DD`). Fab warnings use this date, not the clock on the computer.
 2. Each job needs a `number`, a `name`, and `areas`.
-3. Each area has a `name` and `stages`: four `true` / `false` values, in order:
+3. Each area has a `name` and `stages`: five `true` / `false` values, in order:
 
-   **Field Checks, Calced, Listed, Delivered.**
+   **Design, Field Checks, Calced, Listed, Delivered.**
 
 4. Add `fab` only when a floor has fabrication dates. Each entry needs:
    - `floor` — label, usually the same name as the area
@@ -26,7 +26,7 @@ Edit **`data.js` only**, then reload the page.
    - `approved` — Approved by City, same shape.
    - `revisions` — optional extra rows on that same package, in order. Each has `label` (the left cell, such as `Submit Rev 1 to City`), `submitted`, and `approved`. The right cell stays "Approved by City". Omit `revisions` when there is no resubmittal.
    Pending stays neutral. A done submission is cyan. A done approval is a navy check. A rejected step is a red X. Add one list entry per package. Moody Center has two; the loading dock has one.
-8. `todos` is a list of tasks. Each has `text`, optional `due` (`YYYY-MM-DD`), and `done` (`true` or `false`). The page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones. A task past `asOf` that is not done is red. A task due within 3 days, including today, is cyan. Done tasks are struck through. An empty list hides the To-Do section.
+8. `todos` is a list of tasks. Each has `text`, optional `due` (`YYYY-MM-DD`), `done` (`true` or `false`), and optional `completed` (`YYYY-MM-DD`). The page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones. A task past `asOf` that is not done is red. A task due within 3 days, including today, is cyan. Done tasks are struck through. When a done task has `completed`, that date is shown beside the task, such as `Completed Nov 9`. A task that is not done does not show it. An empty list hides the To-Do section.
 
 ### Example
 
@@ -35,8 +35,8 @@ Edit **`data.js` only**, then reload the page.
   number: "4396",
   name: "Moody Center (Rice University)",
   areas: [
-    { name: "Level 1", stages: [true, true, true, true] },
-    { name: "Level 2", stages: [true, true, true, false] },
+    { name: "Level 1", stages: [true, true, true, true, true] },
+    { name: "Level 2", stages: [true, true, true, true, false] },
   ],
   fab: [
     { floor: "Level 3", poj: "2026-11-12", fabCheck: "2026-10-22", toFab: "2026-10-29" },
@@ -54,7 +54,7 @@ Edit **`data.js` only**, then reload the page.
   todos: [
     { text: "Level 4 sheet and calc", due: "2026-10-24", done: false },
     { text: "Send stock list", due: "2026-10-28", done: false },
-    { text: "Field check pavilion", done: true },
+    { text: "Field check pavilion", done: true, completed: "2026-11-09" },
   ],
 }
 ```

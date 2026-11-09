@@ -11,6 +11,8 @@
   --open: #eef1f6;
   --warn-bg: #fdecee;
   --shadow: 0 10px 28px rgba(20, 20, 122, 0.08);
+  /* app.js sets this from TRACKER_DATA.stages.length before the grid is drawn. */
+  --stage-count: 5;
 }
 
 * { box-sizing: border-box; }
@@ -246,7 +248,7 @@ main {
 .progress-head,
 .progress-row {
   display: grid;
-  grid-template-columns: minmax(8.5rem, 1.35fr) repeat(4, minmax(0, 1fr)) 3.3rem;
+  grid-template-columns: minmax(8.5rem, 1.35fr) repeat(var(--stage-count, 5), minmax(0, 1fr)) 3.3rem;
   column-gap: 8px;
   align-items: center;
 }
@@ -494,6 +496,13 @@ main {
 
 .todo-text { color: var(--ink); }
 
+.todo-completed {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .todo-due {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -514,7 +523,7 @@ main {
   box-shadow: inset 3px 0 0 var(--cyan);
 }
 
-.todo.done .todo-text,
+.todo.done .todo-words,
 .todo.done .todo-due {
   color: var(--muted);
   text-decoration: line-through;
@@ -623,31 +632,31 @@ main {
   .progress-head { display: none; }
 
   .progress-row {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-areas:
-      "name name name count"
-      "s1 s2 s3 s4";
+    grid-template-columns: repeat(var(--stage-count, 5), minmax(0, 1fr));
     row-gap: 8px;
     padding: 10px 0;
     margin: 0;
     border-top: 1px solid var(--line);
+    align-items: stretch;
   }
 
   .progress-row:last-child { border-bottom: 1px solid var(--line); }
 
-  .area-name { grid-area: name; }
+  .area-name {
+    grid-column: 1 / -2;
+    grid-row: 1;
+  }
 
   .count {
-    grid-area: count;
+    grid-column: -2 / -1;
+    grid-row: 1;
     text-align: right;
   }
 
-  .progress-row .cell:nth-child(2) { grid-area: s1; }
-  .progress-row .cell:nth-child(3) { grid-area: s2; }
-  .progress-row .cell:nth-child(4) { grid-area: s3; }
-  .progress-row .cell:nth-child(5) { grid-area: s4; }
-
-  .progress-row { align-items: stretch; }
+  .progress-row .cell {
+    grid-column: var(--stage-index);
+    grid-row: 2;
+  }
 
   .cell {
     display: flex;
