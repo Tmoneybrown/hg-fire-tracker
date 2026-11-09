@@ -22,7 +22,7 @@
 
   var stages = data.stages && data.stages.length
     ? data.stages
-    : ["Field Checks", "Calced", "Listed", "Delivered"];
+    : ["Design", "Field Checks", "Calced", "Listed", "Delivered"];
   var asOf = data.asOf || "";
   var jobs = data.jobs || [];
 
@@ -534,7 +534,7 @@
         meta.appendChild(el("time", { class: "due-date", datetime: view.due, text: "Due " + view.dueLabel }));
       }
       if (view.completedLabel) {
-        meta.appendChild(el("span", { class: "badge badge-done", text: "Done " + view.completedLabel }));
+        meta.appendChild(el("span", { class: "badge badge-done", text: "Completed " + view.completedLabel }));
       }
       body.appendChild(meta);
       row.appendChild(body);
@@ -554,10 +554,6 @@
     }).map(function (item, index) {
       return { item: item, index: index };
     }).sort(function (a, b) {
-      // Open first, then by due date
-      var adone = a.item.done === true;
-      var bdone = b.item.done === true;
-      if (adone !== bdone) return adone ? 1 : -1;
       var ad = isIsoDate(a.item.due) ? a.item.due : "";
       var bd = isIsoDate(b.item.due) ? b.item.due : "";
       if (ad && bd && ad !== bd) return ad < bd ? -1 : 1;

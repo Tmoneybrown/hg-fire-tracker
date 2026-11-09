@@ -11,10 +11,10 @@ The page is a single column:
 - **Header.** HG Fire logo, “Project Tracker”, and the report date from `asOf`.
 - **Summary.** Four cards: active jobs, overdue to-dos, the next POJ, and open city reviews.
 - **Job cards.** One card per job. Each card starts open. Click the header to collapse or expand it. The ring is the share of stages that are done. A red top border means the job has an overdue to-do, a fab check that is past due, or a city rejection.
-- **Progress.** One segmented bar per area. Green is done, blue is the next open stage, gray is still open. Short labels sit under the segments: Field, Calc, Listed, Deliv.
+- **Progress.** One segmented bar per area. The bar follows `stages`, so it draws as many segments as that list has. Green is done, blue is the next open stage, gray is still open. Short labels sit under the segments: Design, Field, Calc, Listed, Deliv.
 - **Fab schedule.** A timeline of fab check, to fab, and POJ. Omit `fab` and this block is left off.
 - **City permits.** Submitted and approved cells for each package, plus any revision rows. A permit number, when set, sits on the right of the package name.
-- **To-do.** Open tasks first, then done tasks. Omit `todos` or leave it `[]` and this block is left off.
+- **To-do.** Tasks sort by due date. Omit `todos` or leave it `[]` and this block is left off.
 
 On a narrow screen the summary becomes two columns, area names stack above the bar, and city cells stack.
 
@@ -30,11 +30,11 @@ Edit **`data.js` only**, then reload the page.
 
 1. Set `asOf` to the report date (`YYYY-MM-DD`). Fab warnings and to-do status use this date, not the clock on the computer.
 2. Each job needs a `number`, a `name`, and `areas`.
-3. `stages` is the progress columns, in order. Keep all four:
+3. `stages` is the progress columns, in order. Keep all five, including Design:
 
-   **Field Checks, Calced, Listed, Delivered.**
+   **Design, Field Checks, Calced, Listed, Delivered.**
 
-   Each area has a `name` and `stages`: four `true` / `false` values in that same order. `true` is done. The first `false` is drawn as the next stage.
+   Each area has a `name` and `stages`: five `true` / `false` values in that same order. `true` is done. The first `false` is drawn as the next stage. The page draws one segment for each entry in `stages`.
 4. Add `fab` only when a floor has fabrication dates. Each entry needs:
    - `floor` — label, usually the same name as the area
    - `poj` — POJ date
@@ -55,9 +55,9 @@ Edit **`data.js` only**, then reload the page.
    - `text` — the task
    - `due` — optional `YYYY-MM-DD`
    - `done` — `true` or `false`
-   - `completed` — optional `YYYY-MM-DD`. When `done` is true and this is set, the row shows a “Done Nov 2” badge.
+   - `completed` — optional `YYYY-MM-DD`. Shown only when `done` is true, beside the task, such as “Completed Nov 9”. A task that is not done does not show it.
 
-   Open tasks are listed first, then done tasks. Inside each group the page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones in that group. A task past `asOf` that is not done is overdue (red, with how many days late). A task due within 3 days, including today, is highlighted. Done tasks are struck through. An empty list hides the To-Do section.
+   The page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones. A task past `asOf` that is not done is overdue (red, with how many days late). A task due within 3 days, including today, is highlighted. Done tasks are struck through. An empty list hides the To-Do section.
 
 ### Example
 
@@ -66,8 +66,8 @@ Edit **`data.js` only**, then reload the page.
   number: "4396",
   name: "Moody Center (Rice University)",
   areas: [
-    { name: "Level 1", stages: [true, true, true, true] },
-    { name: "Level 2", stages: [true, true, true, false] },
+    { name: "Level 1", stages: [true, true, true, true, true] },
+    { name: "Level 2", stages: [true, true, true, true, false] },
   ],
   fab: [
     { floor: "Level 3", poj: "2026-11-12", fabCheck: "2026-10-22", toFab: "2026-10-29" },
