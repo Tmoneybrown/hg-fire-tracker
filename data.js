@@ -20,6 +20,8 @@
           Omit it, or use [], to hide that section. This is job-level,
           not one row per floor. Add a named entry for each package.
           name       Label, such as "Main Building (Levels 1-5)"
+          permit     Optional permit number, such as "#25110060".
+                     Shown beside the package name.
           submitted  { status: "pending", "done", or "rejected", date optional }
                      "failed" is the same as "rejected". A date is YYYY-MM-DD.
           approved   Same shape. "Submitted to City" and "Approved by City".
@@ -77,6 +79,7 @@ var TRACKER_DATA = {
       city: [
         {
           name: "Main Building (Levels 1-5)",
+          permit: "#25110060",
           submitted: { status: "done", date: "2026-10-28" },
           approved: { status: "rejected" },
           revisions: [
@@ -89,6 +92,7 @@ var TRACKER_DATA = {
         },
         {
           name: "Pavilion (L1-L2)",
+          permit: "#25110061",
           submitted: { status: "pending" },
           approved: { status: "pending" },
         },
