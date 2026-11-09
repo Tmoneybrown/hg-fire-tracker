@@ -16,7 +16,8 @@
     return;
   }
 
-  var stages = data.stages && data.stages.length ? data.stages : ["Field Checks", "Calced", "Listed", "Delivered"];
+  var stages = data.stages && data.stages.length ? data.stages : ["Design", "Field Checks", "Calced", "Listed", "Delivered"];
+  document.documentElement.style.setProperty("--stage-count", String(stages.length));
   var asOf = data.asOf || "";
   var jobs = data.jobs || [];
 
@@ -126,6 +127,7 @@
           "data-label": name,
           "aria-label": name + ": " + (complete ? "done" : "open"),
         });
+        cell.style.setProperty("--stage-index", String(stageIndex + 1));
         cell.appendChild(el("span", { class: "box", "aria-hidden": "true", text: complete ? "\u2713" : "" }));
         row.appendChild(cell);
       });
@@ -245,7 +247,17 @@
         text: view.done ? "\u2713" : "",
       }));
       var body = el("div", { class: "todo-body" });
-      body.appendChild(el("p", { class: "todo-text", text: item.text }));
+      var text = el("p", { class: "todo-text" });
+      text.appendChild(el("span", { class: "todo-words", text: item.text }));
+      if (view.completedLabel) {
+        text.appendChild(document.createTextNode(" "));
+        text.appendChild(el("time", {
+          class: "todo-completed",
+          datetime: view.completed,
+          text: view.completedLabel,
+        }));
+      }
+      body.appendChild(text);
       if (view.note) body.appendChild(el("p", { class: "sr-only", text: view.note }));
       row.appendChild(body);
       if (view.dueLabel) {
@@ -387,6 +399,7 @@
   function todoView(item, reportDate) {
     var done = item.done === true;
     var due = isIsoDate(item.due) ? item.due : "";
+    var completed = done && isIsoDate(item.completed) ? item.completed : "";
     var overdue = !done && due && reportDate > due;
     var soon = !done && due && !overdue && due <= addDays(reportDate, 3);
     var className = done ? "done" : overdue ? "overdue" : soon ? "soon" : "";
@@ -395,6 +408,8 @@
       done: done,
       due: due,
       dueLabel: due ? formatShort(due) : "",
+      completed: completed,
+      completedLabel: completed ? "Completed " + formatShort(completed) : "",
       className: className,
       note: note,
     };
