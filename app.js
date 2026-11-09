@@ -184,25 +184,42 @@
       var name = String(submission.name || "").trim();
       if (name) block.appendChild(el("h4", { class: "permit-name", text: name }));
       var steps = el("div", { class: "permit-steps" });
-      steps.appendChild(renderPermitStep("Submitted to City", submission.submitted, "submitted"));
-      steps.appendChild(renderPermitStep("Approved by City", submission.approved, "approved"));
+      appendPermitPair(steps, "Submitted to City", submission.submitted, "Approved by City", submission.approved);
+      (submission.revisions || []).forEach(function (rev) {
+        if (!rev) return;
+        var label = String(rev.label || "Submitted to City").trim() || "Submitted to City";
+        appendPermitPair(steps, label, rev.submitted, "Approved by City", rev.approved);
+      });
       block.appendChild(steps);
       section.appendChild(block);
     });
     return section;
   }
 
+  function appendPermitPair(steps, submitLabel, submitted, approveLabel, approved) {
+    steps.appendChild(renderPermitStep(submitLabel, submitted, "submitted"));
+    steps.appendChild(renderPermitStep(approveLabel, approved, "approved"));
+  }
+
   function renderPermitStep(label, raw, doneTone) {
     var state = permitStatus(raw);
-    var done = state.status === "done";
+    var tone = "pending";
+    var mark = "";
+    if (state.status === "done") {
+      tone = doneTone;
+      mark = "\u2713";
+    } else if (state.status === "rejected") {
+      tone = "rejected";
+      mark = "X";
+    }
     var stateText = permitStateText(state);
     var step = el("div", {
-      class: "permit-step " + (done ? doneTone : "pending"),
+      class: "permit-step " + tone,
     });
     step.appendChild(el("span", {
       class: "mark",
       "aria-hidden": "true",
-      text: done ? "\u2713" : "",
+      text: mark,
     }));
     var copy = el("div", { class: "permit-copy" });
     copy.appendChild(el("p", { class: "permit-label", text: label }));
@@ -335,7 +352,9 @@
     var status = "pending";
     var date = "";
     if (raw && typeof raw === "object") {
-      if (String(raw.status || "").toLowerCase() === "done") status = "done";
+      var value = String(raw.status || "").toLowerCase();
+      if (value === "done") status = "done";
+      else if (value === "rejected" || value === "failed") status = "rejected";
       if (isIsoDate(raw.date)) date = raw.date;
     }
     return { status: status, date: date };
@@ -344,6 +363,7 @@
   function permitStateText(state) {
     var date = state.date ? formatShort(state.date) : "";
     if (state.status === "done") return date ? "Done \u00b7 " + date : "Done";
+    if (state.status === "rejected") return date ? "Rejected \u00b7 " + date : "Rejected";
     return date ? "Pending \u00b7 " + date : "Pending";
   }
 

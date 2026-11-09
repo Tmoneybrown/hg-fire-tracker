@@ -20,8 +20,14 @@
           Omit it, or use [], to hide that section. This is job-level,
           not one row per floor. Add a named entry for each package.
           name       Label, such as "Main Building (Levels 1-5)"
-          submitted  { status: "pending" or "done", date: "YYYY-MM-DD" optional }
+          submitted  { status: "pending", "done", or "rejected", date optional }
+                     "failed" is the same as "rejected". A date is YYYY-MM-DD.
           approved   Same shape. "Submitted to City" and "Approved by City".
+                     "done" is a check. "rejected" is a red X.
+          revisions  Optional extra rows on that same package, in order.
+                     label      Left-cell label, such as "Submit Rev 1 to City"
+                     submitted  Same shape as submitted above
+                     approved   Same shape. The right cell stays "Approved by City".
   todos   Optional list. Omit it, or use [], to hide that section.
           text  The task
           due   Optional YYYY-MM-DD
@@ -44,8 +50,8 @@ var TRACKER_DATA = {
       areas: [
         { name: "Level 1", stages: [true, true, true, true] },
         { name: "Level 2", stages: [true, true, true, true] },
-        { name: "Level 3", stages: [true, true, true, false] },
-        { name: "Level 4/5", stages: [true, true, false, false] },
+        { name: "Level 3", stages: [true, true, true, true] },
+        { name: "Level 4/5", stages: [true, true, true, false] },
         { name: "Pavilion L1", stages: [false, false, false, false] },
         { name: "Pavilion L2", stages: [false, false, false, false] },
       ],
@@ -66,7 +72,14 @@ var TRACKER_DATA = {
         {
           name: "Main Building (Levels 1-5)",
           submitted: { status: "done", date: "2026-10-28" },
-          approved: { status: "pending" },
+          approved: { status: "rejected" },
+          revisions: [
+            {
+              label: "Submit Rev 1 to City",
+              submitted: { status: "pending" },
+              approved: { status: "pending" },
+            },
+          ],
         },
         {
           name: "Pavilion (L1-L2)",

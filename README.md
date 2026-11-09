@@ -22,9 +22,10 @@ Edit **`data.js` only**, then reload the page.
 6. `notes` is a list of sentences. Omit `fab`, `notes`, `city`, or `todos` (or leave them as `[]`) and that block is left off the card. Do not add a “no data” line.
 7. `city` is a list of city submissions for the job, not one row per floor. Each entry has:
    - `name` — which package this is, such as `Main Building (Levels 1-5)`
-   - `submitted` — Submitted to City. `{ status: "pending" }` or `{ status: "done", date: "YYYY-MM-DD" }`. `date` is optional.
+   - `submitted` — Submitted to City. `{ status: "pending" }`, `{ status: "done", date: "YYYY-MM-DD" }`, or `{ status: "rejected" }`. `date` is optional. `failed` is the same as `rejected`.
    - `approved` — Approved by City, same shape.
-   Pending stays neutral. A done submission is cyan. A done approval is a navy check. Add one list entry per package. Moody Center has two; the loading dock has one.
+   - `revisions` — optional extra rows on that same package, in order. Each has `label` (the left cell, such as `Submit Rev 1 to City`), `submitted`, and `approved`. The right cell stays "Approved by City". Omit `revisions` when there is no resubmittal.
+   Pending stays neutral. A done submission is cyan. A done approval is a navy check. A rejected step is a red X. Add one list entry per package. Moody Center has two; the loading dock has one.
 8. `todos` is a list of tasks. Each has `text`, optional `due` (`YYYY-MM-DD`), and `done` (`true` or `false`). The page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones. A task past `asOf` that is not done is red. A task due within 3 days, including today, is cyan. Done tasks are struck through. An empty list hides the To-Do section.
 
 ### Example
