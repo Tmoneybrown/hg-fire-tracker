@@ -400,6 +400,11 @@ main {
   box-shadow: inset 3px 0 0 var(--navy);
 }
 
+.permit-step.rejected {
+  background: var(--warn-bg);
+  box-shadow: inset 3px 0 0 var(--red);
+}
+
 .mark {
   width: 28px;
   height: 28px;
@@ -426,6 +431,12 @@ main {
   box-shadow: none;
 }
 
+.permit-step.rejected .mark {
+  background: #fff;
+  color: var(--red);
+  box-shadow: inset 0 0 0 1.5px var(--red);
+}
+
 .permit-copy { min-width: 0; }
 
 .permit-label,
@@ -449,6 +460,15 @@ main {
 
 .permit-step.approved .permit-state {
   color: var(--navy);
+  font-weight: 700;
+}
+
+.permit-step.rejected .permit-label,
+.permit-step.rejected .permit-state {
+  color: var(--red-ink);
+}
+
+.permit-step.rejected .permit-state {
   font-weight: 700;
 }
 
@@ -670,8 +690,10 @@ main {
   .meter > span,
   .permit-step.submitted,
   .permit-step.approved,
+  .permit-step.rejected,
   .permit-step.submitted .mark,
   .permit-step.approved .mark,
+  .permit-step.rejected .mark,
   .todo.overdue,
   .todo.soon,
   .todo.done .mark {
