@@ -99,7 +99,7 @@ var TRACKER_DATA = {
       ],
       todos: [
         { text: "Go over Standpipe and Pump layouts with Brent", due: "2026-11-02", done: false },
-        { text: "Create page layout for Standpipe and Pump", due: "2026-11-02", done: false },
+        { text: "Create page layout for Standpipe and Pump", due: "2026-11-02", done: true, completed: "2026-11-10" },
         { text: "Send shop drawings to Clark Construction", due: "2026-11-02", done: true },
         { text: "Put heads under stairwell landings Level 1", done: true },
       ],
