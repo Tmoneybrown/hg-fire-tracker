@@ -554,11 +554,9 @@
     }).map(function (item, index) {
       return { item: item, index: index };
     }).sort(function (a, b) {
-      var ad = isIsoDate(a.item.due) ? a.item.due : "";
-      var bd = isIsoDate(b.item.due) ? b.item.due : "";
-      if (ad && bd && ad !== bd) return ad < bd ? -1 : 1;
-      if (ad && !bd) return -1;
-      if (!ad && bd) return 1;
+      var aDone = a.item.done === true ? 1 : 0;
+      var bDone = b.item.done === true ? 1 : 0;
+      if (aDone !== bDone) return aDone - bDone;
       return a.index - b.index;
     }).map(function (entry) { return entry.item; });
   }

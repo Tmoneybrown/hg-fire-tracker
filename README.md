@@ -14,7 +14,7 @@ The page is a single column:
 - **Progress.** One segmented bar per area. The bar follows `stages`, so it draws as many segments as that list has. Green is done, blue is the next open stage, gray is still open. Short labels sit under the segments: Design, Field, Calc, Listed, Deliv.
 - **Fab schedule.** A timeline of fab check, to fab, and POJ. Omit `fab` and this block is left off.
 - **City permits.** Submitted and approved cells for each package, plus any revision rows. A permit number, when set, sits on the right of the package name.
-- **To-do.** Tasks sort by due date. Omit `todos` or leave it `[]` and this block is left off.
+- **To-do.** Open tasks are listed above completed ones. Omit `todos` or leave it `[]` and this block is left off.
 
 On a narrow screen the summary becomes two columns, area names stack above the bar, and city cells stack.
 
@@ -57,7 +57,7 @@ Edit **`data.js` only**, then reload the page.
    - `done` — `true` or `false`
    - `completed` — optional `YYYY-MM-DD`. Shown only when `done` is true, beside the task, such as “Completed Nov 9”. A task that is not done does not show it.
 
-   The page sorts by due date. Tasks with the same due date, and tasks with no due date, stay in the order listed. Undated tasks come after dated ones. A task past `asOf` that is not done is overdue (red, with how many days late). A task due within 3 days, including today, is highlighted. Done tasks are struck through. An empty list hides the To-Do section.
+   Open tasks (`done: false`) are listed above completed ones (`done: true`). Within each of those groups, tasks stay in the order listed. A task past `asOf` that is not done is overdue (red, with how many days late). A task due within 3 days, including today, is highlighted. Done tasks are struck through. An empty list hides the To-Do section.
 
 ### Example
 
