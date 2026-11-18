@@ -43,7 +43,7 @@
 */
 
 var TRACKER_DATA = {
-  asOf: "2026-11-17",
+  asOf: "2026-11-18",
 
   stages: ["Design", "Field Checks", "Calced", "Listed", "Delivered"],
 
