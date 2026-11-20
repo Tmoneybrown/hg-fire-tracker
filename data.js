@@ -109,14 +109,8 @@ var TRACKER_DATA = {
       number: "4421",
       name: "811 Louisiana St, PG Loading Dock (Pipe Replacement)",
       areas: [
-        { name: "Loading Dock", stages: [false, true, true, false, false] },
-      ],
-      city: [
-        {
-          name: "Loading Dock",
-          submitted: { status: "pending" },
-          approved: { status: "pending" },
-        },
+        { name: "Part 1", stages: [true, true, true, true, false] },
+        { name: "Part 2", stages: [false, true, true, false, false] },
       ],
       todos: [],
     },
